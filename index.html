@@ -5,6 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kamove</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* --- Estilos mínimos mobile para el toggle --- */
+    .btn-toggle{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      padding:14px 16px;
+      font-size:16px;
+      font-weight:600;
+      border:0;
+      border-radius:12px;
+      background:#111;
+      color:#fff;
+      cursor:pointer;
+      touch-action:manipulation;
+    }
+    .btn-toggle:active{ transform:scale(0.99); }
+    .mv-panel{
+      overflow:hidden;
+      transition:max-height 0.35s ease;
+      max-height:0;
+      background:#fff;
+      border-radius:12px;
+      box-shadow:0 1px 3px rgba(0,0,0,.08);
+      margin-top:12px;
+      padding:0 16px; /* se activa cuando abre */
+    }
+    .mv-panel.open{
+      padding:16px;
+      max-height:600px; /* suficiente para el contenido; ajusta si cambias textos */
+    }
+    .mv-panel h3{
+      margin:8px 0 6px;
+      font-size:18px;
+    }
+    .mv-panel p{
+      margin:0 0 8px;
+      line-height:1.5;
+      font-size:15px;
+    }
+    /* Espaciado del card en mobile */
+    .story .card{ padding:16px; }
+  </style>
 </head>
 <body>
 
@@ -12,12 +56,11 @@
   <header class="nav">
     <button class="burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
     <a class="brand" href="#">
-      <img id="logo" src="./img/logo.jpeg" alt="" />
-    
+      <img id="logo" src="./img/logo.jpeg" alt="logo" />
     </a>
     <nav class="menu" id="menu">
       <a class="pill pill--active" href="#">Kamove</a>
-      <a class="pill" href="#story">About</a>
+      <a class="pill" href="/componentes/index.html">About</a>
       <a class="pill" href="#contacto">Movimiento</a>
       <a class="pill" href="#footer">Blog</a>
     </nav>
@@ -28,8 +71,7 @@
     <div class="hero__wrap">
       <h1>KAMOVE</h1>
       <p>
-        Kamove explora la diversidad de lenguajes corporales, permitiendo que el
-        cuerpo hable desde una perspectiva múltiple del movimiento.
+        Este portafolio amplia la manera en la que se vive el movimiento; permite el cuerpo en la construcción y deconstrucción de la técnica ahondando en la exploración de un nuevo lenguaje corporal propio que aporta a la formación de cuerpos interdisciplinares en danza. 
       </p>
     </div>
   </section>
@@ -38,13 +80,25 @@
   <section id="story" class="story">
     <div class="story__bg" aria-hidden="true"></div>
     <article class="card">
-      <h2>Our Story</h2>
-      <p>
-        Discover the vision and mission behind Kamove. We strive to innovate and
-        inspire through our creative projects. Our goal is to bring your ideas to
-        life with passion and dedication.
-      </p>
-      <a href="#" class="btn">Learn More</a>
+      <h2>MAS INFORMACION</h2>
+     
+      <!-- BOTÓN DE TOGGLE (reemplaza el <a href="#" class="btn">Learn More</a>) -->
+      <button class="btn-toggle" id="aboutToggle" aria-expanded="false" aria-controls="mv-panel">
+        Ver misión y visión
+      </button>
+
+      <!-- PANEL COLAPSABLE -->
+      <div id="mv-panel" class="mv-panel" hidden>
+        <h3>MISIÓN</h3>
+        <p>
+          La misión es explorar la diversidad de lenguajes corporales, permitiendo que el cuerpo hable desde una perspectiva múltiple del movimiento.
+        </p>
+
+        <h3>VISIÓN</h3>
+        <p>
+          La visión es lograr procesos de deconstrucción del movimiento para encontrar procesos creativos auténticos.
+        </p>
+      </div>
     </article>
   </section>
 
@@ -122,12 +176,35 @@
   <script>
     // año del footer
     document.getElementById('y').textContent = new Date().getFullYear();
+
     // menú móvil
     const b = document.querySelector('.burger');
     const m = document.getElementById('menu');
     b.addEventListener('click', () => {
       const open = m.classList.toggle('menu--open');
       b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    // toggle Misión/Visión
+    const toggleBtn = document.getElementById('aboutToggle');
+    const panel = document.getElementById('mv-panel');
+
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = panel.hasAttribute('hidden') === false;
+      if (isOpen) {
+        panel.classList.remove('open');
+        // espera la animación antes de ocultar para accesibilidad
+        setTimeout(() => panel.setAttribute('hidden', ''), 300);
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.textContent = 'Ver misión y visión';
+      } else {
+        panel.removeAttribute('hidden');
+        // forzar reflow para animación suave
+        void panel.offsetWidth;
+        panel.classList.add('open');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        toggleBtn.textContent = 'Cerrar';
+      }
     });
   </script>
 </body>

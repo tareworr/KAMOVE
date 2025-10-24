@@ -34,7 +34,7 @@ body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sa
 .menu{display:none;flex-wrap:wrap;gap:8px;margin-left:auto}
 .menu--open{display:flex}
 .pill{padding:8px 14px;border-radius:999px;background:var(--pill);color:#fff;text-decoration:none;box-shadow:var(--shadow);font-weight:600}
-.pill--active{background:var(--pill-active)}
+
 
 /* ====== HERO ====== */
 .hero{background:var(--bg);color:var(--text);padding:48px 16px}
